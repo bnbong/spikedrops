@@ -19,36 +19,7 @@
 
 ## 2. Aggregate Boundary Diagram
 
-```mermaid
-flowchart TB
-    Customer[Customer Aggregate]
-    Product[Product Aggregate]
-    DropEvent[DropEvent Aggregate]
-    DropItem[DropItem Aggregate]
-    Inventory[Inventory Aggregate]
-    Cart[Cart Aggregate\nCart - CartItem]
-    Order[Order Aggregate\nOrder - OrderLine]
-    Payment[Payment Aggregate]
-    Refund[Refund Aggregate]
-    Ledger[Ledger Aggregate\nLedgerTransaction - LedgerEntry]
-    Outbox[OutboxEvent]
-    Retry[RetryTask]
-
-    DropItem -. dropEventId .-> DropEvent
-    DropItem -. productId .-> Product
-    Inventory -. dropItemId .-> DropItem
-    Cart -. customerId .-> Customer
-    Cart -. cartItem.dropItemId .-> DropItem
-    Order -. customerId .-> Customer
-    Order -. orderLine.dropItemId .-> DropItem
-    Payment -. orderId .-> Order
-    Refund -. orderId/paymentId .-> Order
-    Refund -. paymentId .-> Payment
-    Ledger -. paymentId/refundId .-> Payment
-    Payment --> Outbox
-    Refund --> Outbox
-    Outbox --> Retry
-```
+![02-aggregateboundary](./images/02-aggrgateboundary.png)
 
 ## 3. Aggregate Details
 
